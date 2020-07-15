@@ -1,5 +1,24 @@
 @import './colors.scss';
 @import './header.scss';
+@import './rental-home';
+
+html, body {
+  height: 100%;
+}
+
+.type- {
+  &apartment {
+    color: #a72da3;
+  }
+
+  &house {
+    color: #bf1818;
+  }
+
+  &condo {
+    color: #d68000;
+  }
+}
 
 .navbar-dark .navbar-nav {
   .nav-link {
@@ -21,4 +40,4 @@
       box-shadow: none;
     }
   }
-} 
+}
