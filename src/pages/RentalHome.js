@@ -53,11 +53,9 @@ class RentalHome extends React.Component {
         const { rentals } = this.state;  
         return(
             <div className="card-list">
-                <div className="container">
                 <h1 className="page-title">Your Home All Around the World</h1>
                 <div className="row">
                   { this.renderRentals(rentals) }
-                </div>
             </div>
         </div> 
         )   
