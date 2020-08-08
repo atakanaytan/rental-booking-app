@@ -1,27 +1,25 @@
 import React from 'react';
 import RentalCard from '../components/rental/RentalCard';
 import connect from '../store/connect';
+import { fetchRentals } from '../actions/index';
 
 class RentalHome extends React.Component {
 
-  state = {
-    rentals: []
-  }
      
   componentDidMount() {
-    const { rentals } = this.props;
-    this.setState({rentals});
-  }
+    this.props.dispatch(fetchRentals());
+   }
   
     renderRentals = (rentals) =>
       rentals.map(rental => 
           <div key={rental._id} className="col-md-3">
-             <RentalCard rental= {rental} />      
+             <RentalCard rental= {rental}/>      
           </div>
       );
               
     render() {
-        const { rentals } = this.state;  
+        const { rentals } = this.props;  
+
         return(
             <div className="card-list">
                 <h1 className="page-title">Your Home All Around the World</h1>
