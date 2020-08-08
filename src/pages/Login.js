@@ -7,7 +7,7 @@ class Login extends React.Component {
     render() {
         const{ data } = this.props;
         return(
-            <p>{JSON.stringify(data())}</p>
+            <p>{JSON.stringify(data)}</p>
         )
     }
 }
