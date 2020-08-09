@@ -1,8 +1,10 @@
 
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchRentalById } from '../actions';
+import { capitilize } from '../helpers/functions';
 
 class RentalDetail extends React.Component {
 
@@ -35,7 +37,7 @@ class RentalDetail extends React.Component {
                            {rental.shared ? 'Shared' : 'Whole'} {rental.category}
                        </h2>
                        <h1 className="rental-title">{rental.title}</h1>
-                       <h2 className="rental-city">{rental.city}</h2>
+                       <h2 className="rental-city">{capitilize(rental.city)}</h2>
                         <div className="rental-room-info">
                             <span><i className="fa fa-building"></i>{rental.numOfRooms} bedrooms</span>
                             <span><i className="fa fa-user"></i>{rental.numOfRooms + 4} guests</span>
@@ -49,14 +51,26 @@ class RentalDetail extends React.Component {
                           <h3 className="title">Assets</h3>
                           <div className="row">
                             <div className="col-md-6">
-                                <span><i className="fa fa-asterisk"></i> Cooling</span>
-                                <span><i className="fa fa-thermometer"></i> Heating</span>
-                                <span><i className="fa fa-location-arrow"></i> Iron</span>
+                                <span>
+                                  <FontAwesomeIcon icon="asterisk"/> Cooling
+                                </span>
+                                <span>
+                                  <FontAwesomeIcon icon="thermometer"/> Heating
+                                </span>
+                                <span>
+                                  <FontAwesomeIcon icon="location-arrow"/> Iron
+                                </span>
                             </div>
                             <div className="col-md-6">
-                                <span><i className="fa fa-desktop"></i> Working area</span>
-                                <span><i className="fa fa-cube"></i> Washing machine</span>
-                                <span><i className="fa fa-cube"></i> Dishwasher</span>
+                                <span>
+                                  <FontAwesomeIcon icon="desktop"/> Working area
+                                </span>
+                                <span>
+                                  <FontAwesomeIcon icon="cube"/> Washing machine
+                                </span>
+                                <span>
+                                  <FontAwesomeIcon icon="archive"/> Dishwasher
+                                </span>
                             </div>
                         </div>
                        </div>
