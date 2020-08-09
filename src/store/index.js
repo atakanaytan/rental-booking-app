@@ -1,14 +1,15 @@
 
 import { createStore, combineReducers } from 'redux';
 import rentals from './reducers/rentals';
+import rental from './reducers/rental';
 
 export function initStore() {
     const reducers = combineReducers({
         rentals,
-        data1: () => ['1', '2', '3'],
-        data2: () => ['a', 'b', 'c']
-    })
+        rental
+    });
     
-    const store = createStore(reducers);
+    const reduxExtendsion = window.__REDUX_DEVTOOLS_EXTENSION__&& window.__REDUX_DEVTOOLS_EXTENSION__();
+    const store = createStore(reducers, reduxExtendsion);
     return store;   
 }

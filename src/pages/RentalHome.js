@@ -1,6 +1,6 @@
 import React from 'react';
 import RentalCard from '../components/rental/RentalCard';
-import connect from '../store/connect';
+import { connect }  from 'react-redux';
 import { fetchRentals } from '../actions/index';
 
 class RentalHome extends React.Component {
@@ -16,7 +16,7 @@ class RentalHome extends React.Component {
              <RentalCard rental= {rental}/>      
           </div>
       );
-              
+    
     render() {
         const { rentals } = this.props;  
 
