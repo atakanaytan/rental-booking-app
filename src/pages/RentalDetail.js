@@ -3,8 +3,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchRentalById } from '../actions';
-import { capitilize } from '../helpers/functions';
+import { fetchRentalById } from 'actions';
+import { capitilize } from 'helpers/functions';
 
 class RentalDetail extends React.Component {
 
