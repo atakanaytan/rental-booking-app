@@ -1,12 +1,17 @@
 
+import axios from 'axios';
 
-export const fetchRentals = (rentals) => {
 
-    return {
-        type: 'FETCH_RENTALS',
-        rentals
-    }
-} 
+export const fetchRentals = () => dispatch => {
+    axios.get('/api/v1/rentals')
+      .then(res => {
+        const rentals = res.data;
+        dispatch({
+            type: 'FETCH_RENTALS',
+            rentals
+        });
+    })
+}
 
 export const createRental = rental => {
     return{
@@ -15,11 +20,13 @@ export const createRental = rental => {
     }
 }
 
-export const fetchRentalById = (rentalId) => {
- //   const rental = rentalData.find((rental) => rental._id === rentalId );
-
-    return {
-        type: 'FETCH_RENTALS_BY_ID',
-        rental : {}
-    }
+export const fetchRentalById = rentalId => dispatch => {
+    axios.get(`/api/v1/${rentalId}`)
+        .then(res => {
+            const rental = res.data;
+            dispatch({
+                type: 'FETCH_RENTAL_BY_ID',
+                rental    
+           });
+        })
 } 
