@@ -1,51 +1,39 @@
 
-const rentals = [
-    {
-        _id: '1434341',
-        city: 'New York',
-        title: 'Very Nice'
-    },
-    {
-        _id: '12131',
-        city: 'Berlin',
-        title: 'The place where i did a erasmus'
-    }
-]
+const Rental = require('../models/rental');
 
 
 exports.getRentals = (req, res) => {
-    return res.json(rentals);
+    Rental.find({}, (err, foundRentals) => {
+        if (err) {
+            return Rental
+            .sendError(res, { status: 422, detail: 'Cannot retrieve rental data!'});
+        }
+
+        return res.json(foundRentals);
+    })
 }
 
 exports.getRentalById = (req, res) => {
     const { rentalId } = req.params;
-    const rental = rentals.find(r => r._id === rentalId);
 
-    return res.json(rental)
+    Rental.findById(rentalId, (err, foundRental) => {
+        if (err) {
+            return Rental
+            .sendError(res, { status: 422, detail: 'Cannot retrieve rental data!'});
+        }
+
+        return res.json(foundRental);
+    })
 }
 
 exports.createRental = (req,res) => {
     const rentalData = req.body;
-    rentals.push(rentalData);
-
-    return res.json({message: `Rental with id: ${rentalData._id} was added!`});
-}
-
-exports.deleteRental = (req, res) => {
-    const { id } = req.params;
-    const rentalIndex = rentals.findIndex(r => r._id === id);
     
-    rentals.splice(rentalIndex, 1);
-    return res.json({message: `Rental with id ${id} was removed!`});
-}
-
-exports.updateRental = (req, res) => {
-    const { id } = req.params;
-    const rentalToUpdate = req.body;
-    const rentalIndex = rentals.findIndex(r => r._id === id);
-    
-    rentals[rentalIndex].city = rentalToUpdate.city;
-    rentals[rentalIndex].title = rentalToUpdate.title;
-    
-    return res.json({message: `Rental with id ${id} was updated!`});
+    Rental.create(rentalData, (err, createdRental) => {
+        if (err) {
+            return Rental
+            .sendError(res, { status: 422, detail: 'Cannot post rental data!'});
+        }
+        return res.json({message: `Rental with id: ${createdRental._id} was added!`});
+    })
 }
