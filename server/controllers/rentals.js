@@ -6,7 +6,7 @@ exports.getRentals = (req, res) => {
     Rental.find({}, (err, foundRentals) => {
         if (err) {
             return Rental
-            .sendError(res, { status: 422, detail: 'Cannot retrieve rental data!'});
+             .sendError(res, { status: 422, detail: 'Cannot retrieve rental data!'});
         }
 
         return res.json(foundRentals);

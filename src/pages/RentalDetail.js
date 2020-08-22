@@ -14,8 +14,9 @@ class RentalDetail extends React.Component {
     }
 
     render() {
-        const { rental } = this.props;
-
+        const { rental, isFetching } = this.props;
+        if (isFetching) { return null; }
+        
         return (
             <section id="rentalDetails">
               <div className="upper-section">
@@ -39,10 +40,10 @@ class RentalDetail extends React.Component {
                        <h1 className="rental-title">{rental.title}</h1>
                        <h2 className="rental-city">{capitilize(rental.city)}</h2>
                         <div className="rental-room-info">
-                            <span><i className="fa fa-building"></i>{rental.numOfRooms} bedrooms</span>
+                        <span><i className="fa fa-building"></i>{rental.numOfRooms} bedrooms</span>
                             <span><i className="fa fa-user"></i>{rental.numOfRooms + 4} guests</span>
                             <span><i className="fa fa-bed"></i> {rental.numOfRooms + 2} beds</span>
-                        </div>
+                          </div>
                         <p className="rental-description">
                         {rental.description}
                         </p>
@@ -85,8 +86,8 @@ class RentalDetail extends React.Component {
     }
 }
 
-const mapStateToProps = ({rental}) => ({rental})
+const mapStateToProps = ({rental}) => 
+    ({ rental: rental.item, isFetching: rental.isFetching })
 
 const RentalDetailWithRouter = withRouter(RentalDetail);
-
 export default connect(mapStateToProps)(RentalDetailWithRouter);

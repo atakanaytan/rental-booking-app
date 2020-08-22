@@ -13,6 +13,15 @@ export const fetchRentals = () => dispatch => {
     })
 }
 
+export const fetchRentalById = rentalId => async dispatch => {
+    dispatch({type: 'IS_FETCHING_RENTAL'});
+    const res = await axios.get(`/api/v1/rentals/${rentalId}`)
+    dispatch({
+        type: 'FETCH_RENTAL_BY_ID',
+        rental: res.data   
+    });
+}
+
 export const createRental = rental => {
     return{
         type: 'CREATE_RENTALS',
@@ -20,13 +29,3 @@ export const createRental = rental => {
     }
 }
 
-export const fetchRentalById = rentalId => dispatch => {
-    axios.get(`/api/v1/${rentalId}`)
-        .then(res => {
-            const rental = res.data;
-            dispatch({
-                type: 'FETCH_RENTAL_BY_ID',
-                rental    
-           });
-        })
-} 

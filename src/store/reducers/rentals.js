@@ -2,7 +2,6 @@
 
 
 const rentals = (state = [], action) => {
-
     switch(action.type) {
         case 'FETCH_RENTALS':
             return action.rentals;

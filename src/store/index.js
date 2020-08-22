@@ -11,8 +11,8 @@ export function initStore() {
         rental
     });
     
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;   
-     const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
   
     return store;   
 }
