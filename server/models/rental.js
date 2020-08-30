@@ -21,8 +21,8 @@ const rentalSchema = new Schema({
 rentalSchema.statics.sendError = function(res, config) {
     const { status, detail } = config;
     return res
-    .status(status)
-    .send({errors: [{title: 'Rental Error!', detail}]})
+        .status(status)
+        .send({errors: [{title: 'Rental Error!', detail}]})
 }
 
     
