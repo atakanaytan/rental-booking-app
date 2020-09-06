@@ -44,6 +44,7 @@ exports.register = (req, res) => {
   }
 
   User.findOne({email}, (error, existingUser) => {
+  
     if (error) {
       return res.status(422).send({errors: [{title: 'DB Error', detail: 'Oooops, something went wrong!'}]});
     }
@@ -51,7 +52,6 @@ exports.register = (req, res) => {
     if (existingUser) {
       return res.status(422).send({errors: [{title: 'Invalid Email', detail: 'User with provided email already exists!'}]});
     }
-
     const user = new User({username, email, password});
     user.save((error) => {
       if (error) {
@@ -61,4 +61,44 @@ exports.register = (req, res) => {
       return res.json({status: 'registered'});
     })
   })
+}
+
+
+exports.onlyAuthUser = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (token) {
+    const decodedToken = parseToken(token);
+    if (!decodedToken) { return notAuthorized(res); }
+
+    User.findById(decodedToken.sub, (error, foundUser) => {
+      if (error) {
+        return res.status(422).send({errors: [{title: 'DB Error', detail: 'Oooops, something went wrong!'}]});
+      }
+
+      if (foundUser) {
+        res.locals.user = foundUser;
+        next();
+      } else {
+        return notAuthorized(res);
+      }
+    })
+  } else {
+    return notAuthorized(res);
+  }
+}
+
+function parseToken(token) {
+  try {
+    return jwt.verify(token.split(' ')[1], config.JWT_SECRET); 
+  } catch (error) {
+    return null;
+  }
+ }
+
+function notAuthorized(res) {
+  return res
+      .status(401)
+      .send({errors:
+        [{title: 'Not Authorized!', detail: 'You need to log in to get an access!'}]})
 }
