@@ -1,16 +1,27 @@
 import React from 'react';
 import { loginUser } from 'actions';
+import { connect } from 'react-redux';  
+import jwt from 'jsonwebtoken';
 
 const { createContext } = React;
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = (props) => {
+const AuthBaseProvider = ({children, dispatch}) => {
+
+    const decodeToken = token => {
+        return jwt.decode(token);
+    }
 
     const signIn = (loginData) => {
         return loginUser(loginData)
             .then(token => {
-                console.log(token);
+                localStorage.setItem('bwm_token', token);
+                const decodedToken = decodeToken(token);
+                dispatch({
+                    type: 'USER_AUTHENTICATED',
+                    username: decodedToken.username || ''
+                })
                 return token;
             })
     }
@@ -21,10 +32,12 @@ export const AuthProvider = (props) => {
     
     return(
         <AuthContext.Provider value={ authApi }>
-            {props.children}
+            {children}
         </AuthContext.Provider>
     )
 }
+
+export const AuthProvider =  connect()(AuthBaseProvider);
 
 export const withAuth = Component => props => (
         <AuthContext.Consumer>
