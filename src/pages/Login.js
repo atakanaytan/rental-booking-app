@@ -1,21 +1,41 @@
 
 import React from 'react';
 import LoginForm from 'components/forms/LoginForm';
+import ApiErrors from 'components/forms/ApiErrors';
+import { Redirect } from 'react-router-dom';
+import { withAuth } from 'providers/AuthProvider';
 
 class Login extends React.Component {
-
-    loginUser = (loginData) => {
-        alert(JSON.stringify(loginData))
+    
+    state = {
+        shouldRedirect: false,
+        errors: []
+      }
+    
+    signIn = (loginData) => {
+        this.props.auth.signIn(loginData)
+            .then(token => {
+                console.log(token);
+                this.setState({shouldRedirect: true});
+            })
+            .catch(errors => this.setState({errors}))
     }
 
     render() {
+
+        const { shouldRedirect, errors } = this.state;
+
+        if (shouldRedirect) {
+            return <Redirect to={{pathname: '/'}} />
+            }
 
         return(
             <div className="bwm-form">
                 <div className="row">
                     <div className="col-md-5">
                     <h1 className="page-title">Login</h1>
-                    <LoginForm onSubmit={this.loginUser} />
+                    <LoginForm onSubmit={this.signIn} />
+                    <ApiErrors errors={errors}/>
                     </div>
                     <div className="col-md-6 ml-auto">
                     <div className="image-container">
@@ -30,4 +50,4 @@ class Login extends React.Component {
 }
 
 
-export default Login;
+export default withAuth(Login);

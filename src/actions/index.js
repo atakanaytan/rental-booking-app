@@ -46,3 +46,11 @@ export const registerUser = (registerData) => {
       .post('/api/v1/users/register', registerData)
           .catch(error => Promise.reject(extractApiErrors(error.response || {})))
 }
+
+
+export const loginUser = (loginData) => {
+    return axios
+      .post('/api/v1/users/login', loginData)
+      .then(res => res.data)      
+          .catch(error => Promise.reject(extractApiErrors(error.response || {})))
+}
