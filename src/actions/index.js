@@ -2,6 +2,16 @@
 import axios from 'axios';
 
 
+export const extractApiErrors = (resError) => {
+    let errors = [{title: 'Error!', detail: 'Ooops, something went wrong!'}];
+  
+    if (resError && resError.data && resError.data.errors) {
+      errors = resError.data.errors;
+    }
+  
+    return errors;
+  }
+
 export const fetchRentals = () => dispatch => {
     axios.get('/api/v1/rentals')
       .then(res => {
@@ -29,3 +39,10 @@ export const createRental = rental => {
     }
 }
 
+// AUTH ACTIONS
+
+export const registerUser = (registerData) => {
+    return axios
+      .post('/api/v1/users/register', registerData)
+          .catch(error => Promise.reject(extractApiErrors(error.response || {})))
+}
