@@ -18,6 +18,15 @@ const AuthBaseProvider = ({children, dispatch}) => {
         }
     }
 
+    const isAuthenticated = () => {
+        const decodedToken = decodeToken(getToken());
+        return decodedToken && isTokenValid(decodedToken);
+    }
+
+    const isTokenValid = (decodedToken) => {
+        return decodeToken && moment().isBefore(getExpiration(decodedToken));
+    }
+
     const getExpiration = (decodedToken) => {        
         return moment.unix(decodedToken.exp);
     }
@@ -48,7 +57,8 @@ const AuthBaseProvider = ({children, dispatch}) => {
     const authApi = {
         signIn,
         checkAuthState,
-        signOut
+        signOut,
+        isAuthenticated
     }
     
     return(

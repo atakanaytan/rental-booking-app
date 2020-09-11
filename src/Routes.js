@@ -5,10 +5,14 @@ import {
     Route
 } from "react-router-dom";
 
+import AuthRoute from 'components/auth/AuthRoute';
+import GuestRoute from 'components/auth/GuestRoute';
+
 import RentalHome from './pages/RentalHome';
 import RentalDetail from './pages/RentalDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import SecretPage from 'pages/SecretPage';
 
 const Routes = () => {
 
@@ -21,12 +25,15 @@ const Routes = () => {
           <Route path="/rentals/:id">
             <RentalDetail />
           </Route>
-          <Route path="/login">
+          <AuthRoute path="/secret" >
+            <SecretPage />
+          </AuthRoute>
+          <GuestRoute path="/login">
             <Login />
-          </Route>
-          <Route path="/register">
+          </GuestRoute>
+          <GuestRoute path="/register">
             <Register />
-          </Route>
+          </GuestRoute>
         </Switch>
      </div>
     )

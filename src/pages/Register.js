@@ -19,11 +19,10 @@ class Register extends React.Component {
       }
       
     render() {
-
         const { shouldRedirect, errors } = this.state;
 
         if (shouldRedirect) {
-        return <Redirect to={{pathname: '/login'}} />
+           return <Redirect to={{pathname: '/login', state: {message: 'You have been succefully registered!'}}} />
         }
 
         return(
