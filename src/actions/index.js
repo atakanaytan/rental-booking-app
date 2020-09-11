@@ -54,3 +54,11 @@ export const loginUser = (loginData) => {
       .then(res => res.data)      
           .catch(error => Promise.reject(extractApiErrors(error.response || {})))
 }
+
+
+export const userAuthenticated = (decodedToken) => {
+    return {
+        type: 'USER_AUTHENTICATED',
+        username: decodedToken.username || ''
+    }
+}
