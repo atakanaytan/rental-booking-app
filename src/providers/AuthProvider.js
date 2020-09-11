@@ -23,7 +23,7 @@ const AuthBaseProvider = ({children, dispatch}) => {
     }
 
     const getToken = () => {
-        return localStorage.getItem('bwm_token');
+        return localStorage.getItem('rentalNow_token');
     }
 
     const decodeToken = token => {
@@ -33,16 +33,22 @@ const AuthBaseProvider = ({children, dispatch}) => {
     const signIn = (loginData) => {
         return loginUser(loginData)
             .then(token => {
-                localStorage.setItem('bwm_token', token);
+                localStorage.setItem('rentalNow_token', token);
                 const decodedToken = decodeToken(token);
                 dispatch(userAuthenticated(decodedToken))
                 return token;
             })
     }
 
+    const signOut = () => {
+        localStorage.removeItem('rentalNow_token');
+        dispatch({type: 'USER_SIGNED_OUT'})
+    }
+
     const authApi = {
         signIn,
-        checkAuthState
+        checkAuthState,
+        signOut
     }
     
     return(
