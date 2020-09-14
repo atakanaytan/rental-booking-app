@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchRentalById } from 'actions';
 import  RentalInfo from 'components/rental/RentalInfo';
+import  TomMap  from 'components/map/TomMap';
 
 class RentalDetail extends React.Component {
 
@@ -12,6 +13,14 @@ class RentalDetail extends React.Component {
         this.props.dispatch(fetchRentalById(id))
     }
 
+    componentWillUnmount() {
+      this.props.dispatch({type: 'UNMOUNT_RENTAL'});
+    }
+    
+    get location() {
+      const { rental: { street, city }} = this.props;
+      return street && city && city + ', ' + street
+    }
     render() {
         const { rental, isFetching } = this.props;
         if (isFetching) { return null; }
@@ -24,7 +33,7 @@ class RentalDetail extends React.Component {
                         <img src={rental.image} alt={rental.title} />
                     </div>
                     <div className="col-md-6">
-                      <img src={rental.image} alt={rental.title}/>
+                      <TomMap location={this.location}/>
                     </div>
                 </div>
               </div>
