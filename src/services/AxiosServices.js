@@ -11,12 +11,11 @@ class AxiosServies {
 
     initInstance() {
         this.axiosInstance = axios.create({
-            baseURL: '/api/v1',
-            timeout: 5000
+          baseURL: '/api/v1',
+          timeout: 5000
         });
 
         this.axiosInstance.interceptors.request.use((config) => {
-            debugger
             const token = localStorage.getItem('rentalNow_token');
             
             if (token) {
@@ -26,6 +25,10 @@ class AxiosServies {
             return config;
         });
     }
+
+    get rentalAxios() {
+        return this.axiosInstance;
+      }
 }
 
 export default new AxiosServies();
