@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import tt from '@tomtom-international/web-sdk-maps';
 import axios from 'axios';
 
@@ -8,6 +8,21 @@ const { createContext, useContext } = React;
 const MapContext = createContext(null);
 
 export const MapProvider = ({children, apiKey}) => {
+    const cache = useRef({});
+
+    const normalizeLocation = (location) => {
+        return location.replace(/\s/g,'').toLowerCase();
+    }
+
+    const cacheLocation = (location, position) => {
+        const locationKey = normalizeLocation(location);
+        return cache.current[locationKey] = position;
+    }
+
+    const getCachedLocation = (location) => {
+        const locationKey = normalizeLocation(location);
+        return cache.current[locationKey];
+    }
 
     const initMap = () => {
         const map = tt.map({
@@ -40,13 +55,21 @@ export const MapProvider = ({children, apiKey}) => {
     const addPopupMessage = (map, message) => {
         new tt.Popup({className: 'rentalNow-popup', closeButton: false, closeOnClick: false})
             .setLngLat(new tt.LngLat(0,0))
-            .setHTML(`<p>${message}`)
+            .setHTML(`<p>${message}</p>`)
             .addTo(map)
     }
 
     const locationNotFound = () => Promise.reject('Location not found!')
 
+    const getGeoPosition = (location) => {
+        const cachedPosition = getCachedLocation(location);
+        
+        return cachedPosition ? 
+            Promise.resolve(cachedPosition) :
+            requestGeoLocation(location);
+    }
     const requestGeoLocation = location => {
+
        return axios
        .get(`https://api.tomtom.com/search/2/geocode/${location}.JSON?key=${apiKey}`)
        .then(res => res.data)
@@ -54,6 +77,7 @@ export const MapProvider = ({children, apiKey}) => {
            const results = tomRes.results;
            if (results && results.length > 0) {
                const { position } = results[0];
+               cacheLocation(location, position);
                return position;
            }
 
@@ -64,7 +88,7 @@ export const MapProvider = ({children, apiKey}) => {
     
     const mapApi = {
         initMap,
-        requestGeoLocation,
+        getGeoPosition,
         setCenter,
         addMarker,
         addPopupMessage
