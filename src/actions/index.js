@@ -1,5 +1,7 @@
 
 import axios from 'axios';
+import axiosService from 'services/AxiosServices';
+const { rentalAxios } = axiosService;
 
 
 export const extractApiErrors = (resError) => {
@@ -33,10 +35,7 @@ export const fetchRentalById = rentalId => async dispatch => {
 }
 
 export const createRental = rental => {
-    return{
-        type: 'CREATE_RENTALS',
-        rental
-    }
+    return rentalAxios.post('/rentals', rental);
 }
 
 // AUTH ACTIONS
