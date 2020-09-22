@@ -13,7 +13,7 @@ const store = initStore();
 const Providers = ({children}) => 
   <Provider store={store}>
       <AuthProvider>
-        <MapProvider apiKey=<YourKey>>
+        <MapProvider apiKey=<YourKey>
             {children}
         </MapProvider>
       </AuthProvider>
