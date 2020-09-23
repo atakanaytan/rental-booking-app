@@ -2,7 +2,8 @@
 @import './header.scss';
 @import './rental-home';
 @import './rental-detail';
-@import'./forms';
+@import './forms';
+@import './_booking-reserve.scss';
 
 html, body {
   height: 100%;

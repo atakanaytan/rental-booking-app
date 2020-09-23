@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchRentalById } from 'actions';
 import  RentalInfo from 'components/rental/RentalInfo';
 import  TomMap  from 'components/map/TomMap';
+import BookingReserve from 'components/booking/BookingReserve';
 
 class RentalDetail extends React.Component {
 
@@ -37,17 +38,17 @@ class RentalDetail extends React.Component {
                     </div>
                 </div>
               </div>
-          
-                <div className="details-section">
+              <div className="details-section">
                   <div className="row">
                     <div className="col-md-8">
                      <RentalInfo rental={rental} />
                      </div>
-                   <div className="col-md-4"> BOOKING</div>
+                   <div className="col-md-4"> 
+                    <BookingReserve />
+                   </div>
                 </div>
             </div>
           </section> 
-          
         )
     }
 }
