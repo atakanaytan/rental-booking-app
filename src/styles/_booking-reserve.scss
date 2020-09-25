@@ -51,13 +51,18 @@
     }
      }    
     
-      DAL
-     .ooking-modal {
+     
+  .rental-modal{
+    padding-top: 30px;
     .title {
       font-weight: 700;
       font-size: 26px;
     }
     
+    .modal-body {
+      padding-left: 0;
+    }
+
     .buttons {
       margin: 15px 0px;
     }
