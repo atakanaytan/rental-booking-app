@@ -3,6 +3,7 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 import RentalNowModal from 'components/shared/Modal';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { createBooking, getBookings } from 'actions';
 
 const moment = extendMoment(Moment);
 
@@ -11,6 +12,8 @@ class BookingReserve extends React.Component {
   constructor() {
     super();
     this.dateRef = React.createRef();
+    this.bookedOutDates = [];
+
 
     this.state = {
       proposedBooking: {
@@ -21,8 +24,9 @@ class BookingReserve extends React.Component {
     }
   }
 
-  processAditionalData = () => {
-    alert('Calling');
+  async componentDidMount() {
+    const { rental } = this.props;
+    this.bookedOutDates = await getBookings(rental._id);
   }
 
   handleApply = (_, {startDate, endDate}) => {
@@ -42,14 +46,20 @@ class BookingReserve extends React.Component {
       proposedBooking: {
         ...this.state.proposedBooking,
         nights: this.nights,
-        totalPrice: this.totalPrice
+        price: this.price,
+        rental: this.props.rental
       }
     })
   }
 
   checkInvalidDates = (date) => {
-    // if date is invalid return true
-    return date < moment().add(-1, 'days');
+    let isBookedOut = false;
+
+    isBookedOut = this.bookedOutDates.some(booking => 
+       moment.range(booking.startAt, booking.endAt).contains(date)
+    )
+
+    return date < moment().add(-1, 'days') || isBookedOut;
   }
 
   handleGuestsChange = (event) => {
@@ -57,13 +67,20 @@ class BookingReserve extends React.Component {
     this.setState({
       proposedBooking: {
         ...this.state.proposedBooking,
-        guests: event.target.value
+        guests: parseInt(event.target.value, 10)
       }
     })
   }
 
-  reserveRental = () => {
-    alert(JSON.stringify(this.state.proposedBooking));
+  reserveRental = (closeCallback) => {
+    createBooking(this.state.proposedBooking)
+      .then(newBooking => {
+        alert('Success');
+        closeCallback();
+      }) 
+      .catch((error) => {
+        alert('Error');
+      } ) 
   }
 
   get nights() {
@@ -73,7 +90,7 @@ class BookingReserve extends React.Component {
     return Array.from(range.by('days')).length -1;
   }
 
-  get totalPrice() {
+  get price() {
     const { rental: {dailyPrice}} = this.props;
     return dailyPrice && this.nights * dailyPrice;
   }
@@ -89,7 +106,7 @@ class BookingReserve extends React.Component {
 
   render() {
     const { rental } = this.props;
-    const { proposedBooking: { nights, guests, totalPrice } } = this.state;
+    const { proposedBooking: { nights, guests, price } } = this.state;
 
     return (
       <div className='booking'>
@@ -135,7 +152,7 @@ class BookingReserve extends React.Component {
             <em>{nights}</em> Nights /
             <em> ${rental.dailyPrice}</em> per Night
             <p>Guests: <em>{guests}</em></p>
-            <p>Price: <em>${totalPrice}</em></p>
+            <p>Price: <em>${price}</em></p>
             <p>Do you confirm your booking for selected days?</p>
         </RentalNowModal>
         <hr></hr>

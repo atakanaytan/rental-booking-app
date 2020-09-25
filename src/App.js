@@ -13,7 +13,7 @@ const store = initStore();
 const Providers = ({children}) => 
   <Provider store={store}>
       <AuthProvider>
-        <MapProvider apiKey=<YourKey>>
+        <MapProvider apiKey=<YourKey>
             {children}
         </MapProvider>
       </AuthProvider>
@@ -21,7 +21,6 @@ const Providers = ({children}) =>
 
 const RentalNowApp = () => {
   const authService = useAuth();
-      
   useEffect(() => {
     authService.checkAuthState();
   }, [authService])
