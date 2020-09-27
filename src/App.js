@@ -8,6 +8,8 @@ import { AuthProvider, useAuth } from 'providers/AuthProvider';
 import { MapProvider } from 'providers/MapProvider';
 import { initStore } from './store';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 const store = initStore();
 
 const Providers = ({children}) => 
@@ -21,6 +23,7 @@ const Providers = ({children}) =>
 
 const RentalNowApp = () => {
   const authService = useAuth();
+      
   useEffect(() => {
     authService.checkAuthState();
   }, [authService])
@@ -37,6 +40,7 @@ const RentalNowApp = () => {
 
     return (
       <Providers>
+        <ToastContainer />
         <RentalNowApp />
       </Providers>
     )
