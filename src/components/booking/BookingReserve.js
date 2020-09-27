@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import RentalNowModal from 'components/shared/Modal';
 import ApiErrors from 'components/forms/ApiErrors';
@@ -118,13 +119,20 @@ class BookingReserve extends React.Component {
   }
 
   render() {
-    const { rental } = this.props;
+    const { rental, isAuth } = this.props;
     const { errors, proposedBooking: { nights, guests, price } } = this.state;
 
     return (
       <div className='booking'>
         <h3 className='booking-price'>$ {rental.dailyPrice} <span className='booking-per-night'>per night</span></h3>
         <hr></hr>
+      { !isAuth &&
+        <Link 
+          to={{pathname: '/login'}}
+          className="btn btn-bwm-main btn-block">Login to book this place</Link>
+      }
+      { isAuth &&
+        <>
         <div className='form-group'>
         <label htmlFor='dates'>Dates</label>
         <DateRangePicker
@@ -171,6 +179,8 @@ class BookingReserve extends React.Component {
            </div> 
            <ApiErrors errors={errors}/>
         </RentalNowModal>
+        </>
+      }  
         <hr></hr>
         <p className='booking-note-title'>People are interested into this house</p>
         <p className='booking-note-text'>
