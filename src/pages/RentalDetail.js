@@ -6,7 +6,6 @@ import { fetchRentalById } from 'actions';
 import  RentalInfo from 'components/rental/RentalInfo';
 import  TomMap  from 'components/map/TomMap';
 import BookingReserve from 'components/booking/BookingReserve';
-import auth from 'store/reducers/auth';
 
 class RentalDetail extends React.Component {
 

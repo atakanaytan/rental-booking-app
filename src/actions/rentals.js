@@ -3,10 +3,13 @@ import axiosService from 'services/AxiosServices';
 const { rentalAxios } = axiosService;
 
 
-export const fetchRentals = () => dispatch => {
-    rentalAxios.get('/rentals')
+export const fetchRentals = (location) => dispatch => {
+    const query = location ? `/rentals?city=${location}` : '/rentals';
+    dispatch({type: 'REQUEST_DATA', resource: 'rentals'});
+    rentalAxios.get(query)
       .then(res => {
         const rentals = res.data;
+        dispatch({type: 'REQUEST_DATA_COMPLETE', resource: 'rentals'});
         dispatch({
             type: 'FETCH_RENTALS',
             rentals
@@ -15,8 +18,9 @@ export const fetchRentals = () => dispatch => {
 }
 
 export const fetchRentalById = rentalId => async dispatch => {
-    dispatch({type: 'IS_FETCHING_RENTAL'});
+    dispatch({type: 'REQUEST_DATA', resource: 'rental'});
     const res = await rentalAxios.get(`/rentals/${rentalId}`)
+    dispatch({type: 'REQUEST_DATA_COMPLETE', resource: 'rental'});
     dispatch({
         type: 'FETCH_RENTAL_BY_ID',
         rental: res.data   

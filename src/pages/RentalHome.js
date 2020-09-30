@@ -31,9 +31,9 @@ class RentalHome extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({rentals}) => {
   return{
-    rentals: state.rentals
+    rentals: rentals.items
   }
 }
 export default connect(mapStateToProps)(RentalHome);

@@ -1,7 +1,11 @@
 
+import { combineReducers } from 'redux';
+import { isFetchingReducer } from  './common';
 
 
-const rentals = (state = [], action) => {
+const initRentalsReducer = () => {
+
+  const items = (state = [], action) => {
     switch(action.type) {
         case 'FETCH_RENTALS':
             return action.rentals;
@@ -10,7 +14,15 @@ const rentals = (state = [], action) => {
         default:
             return state;        
     }
+  }
 
+  const isFetching = isFetchingReducer('rentals');
+
+  return combineReducers({
+      items,
+      isFetching
+  })
 }
 
+const rentals = initRentalsReducer();
 export default rentals;

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import RentalSearchInput from 'components/rental/RentalSearchInput';
 
 const Header = ({username, isAuth, logout}) => {
 
@@ -13,16 +14,13 @@ const Header = ({username, isAuth, logout}) => {
         </button>
       
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <form className="form-inline my-2 my-lg-0">
-          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-          <button className="btn btn-bwm-main btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <RentalSearchInput />
         <ul className="navbar-nav ml-auto">
           { isAuth && 
             <li className="nav-item"> 
-                <div
-                    className="nav-link">{username}
-                </div>  
+               <div
+                className="nav-link">{username}
+               </div>  
             </li>
           }
           <li className="nav-item active">
