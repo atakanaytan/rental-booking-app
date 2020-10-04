@@ -1,6 +1,7 @@
 
 
 const Booking = require('../models/booking');
+const Rental = require('../models/rental');
 const moment = require('moment');
 
 
@@ -16,15 +17,48 @@ exports.getBookings = async (req, res) => {
    }
 }
 
+exports.getReceivedBookings = async (req, res) => {
+   const { user } = res.locals;
+
+   try {
+      const rentals = await Rental.find({owner: user}, '_id');
+      const rentalIds = rentals.map(r => r.id);
+      const bookings = await Booking
+                              .find({rental: { $in: rentalIds }})
+                              .populate('user', -'password')
+                              .populate('rental');
+      return res.json(bookings);      
+   }  catch (error) {
+      return res.mongoError(error);
+   }
+}
+
+exports.getUserBookings = async (req, res) => {
+   const { user } = res.locals;
+   try {
+      const bookings = await Booking
+                           .find({user})
+                           .populate('user', '-password')
+                           .populate('rental');
+      return res.json(bookings);
+   } catch(error) {
+      return res.mongoError(error);
+   }
+}
+
 exports.createBooking = async (req, res) => {
    const bookingData = req.body;
-   const booking = new Booking({...bookingData, user: res.locals.user});
+   const booking = new Booking(
+      {...bookingData,
+         startAt: moment(bookingData.startAt).utc().format(),
+         endAt: moment(bookingData.endAt).utc().format(),
+         user: res.locals.user});
 
    if (!checkIfBookingDatesAreValid(booking)) {
       return res.sendApiError(
          { title: 'Invalid Booking',
            detail: 'Dates are invalid'});
-   }
+   }  
 
    try {
       const rentalBookings = await Booking.find({rental: booking.rental});

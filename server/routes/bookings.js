@@ -2,12 +2,16 @@
 const express = require('express');
 const router = express.Router();
 const { 
-   createBooking, getBookings } = require('../controllers/bookings');
-
+   createBooking, 
+   getBookings, 
+   getUserBookings, 
+   getReceivedBookings } = require('../controllers/bookings');
 const { isUserRentalOwner } = require('../controllers/rentals');
 const { onlyAuthUser } = require('../controllers/users');
 
 router.get('', getBookings); 
+router.get('/received', onlyAuthUser, getReceivedBookings);
+router.get('/me', onlyAuthUser, getUserBookings);
 router.post('', onlyAuthUser, isUserRentalOwner, createBooking);
 
 module.exports = router;

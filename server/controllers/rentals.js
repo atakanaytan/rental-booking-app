@@ -14,15 +14,25 @@ exports.getRentals = async (req, res) => {
   }
 }
 
+exports.getUserRentals = async (req, res) => {
+ const { user } = res.locals;
+
+ try {
+   const rentals = await Rental.find({owner: user});
+   return res.json(rentals)
+ } catch (error) {
+    return res.mongoError(error);
+ }
+}
+
 exports.getRentalById = async (req, res) => {
     const { rentalId } = req.params;
 
-    try {
-      const rental = await Rental.findById(rentalId).populate('owner', '-password -_id');
-      return res.json(rental);
-    } catch (error) {
-      return res.mongoError(error);
-    }
+    Rental.findById(rentalId, (error, foundRental) => {
+      if (error) { return res.mongoError(error); } 
+    
+      return res.json(foundRental);
+  })
 }
 
 exports.createRental = (req,res) => {
@@ -43,6 +53,13 @@ exports.isUserRentalOwner = (req, res, next) => {
     const { rental } = req.body;
     const user = res.locals.user;
 
+    if (!rental) {
+      return res
+        .sendApiError(
+          { title: 'Booking Error', 
+            detail: 'Cannot create booking to undefined rental'});
+    }
+    
     Rental
       .findById(rental)
       .populate('owner')
