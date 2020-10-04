@@ -5,7 +5,8 @@ const { onlyAuthUser } = require('../controllers/users');
 const { getRentals, 
         getRentalById, 
         createRental,
-        getUserRentals } = require('../controllers/rentals');
+        getUserRentals, 
+        deleteRental } = require('../controllers/rentals');
 
 
 router.get('', getRentals);
@@ -13,4 +14,5 @@ router.get('/me', onlyAuthUser, getUserRentals);
 router.get('/:rentalId', getRentalById);
 router.post('', onlyAuthUser, createRental);
 
+router.delete('/:rentalId', onlyAuthUser, deleteRental)
 module.exports = router;
