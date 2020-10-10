@@ -25,8 +25,8 @@ class RentalHome extends React.Component {
                 <h1 className="page-title">Your Home All Around the World</h1>
                 <div className="row">
                   { this.renderRentals(rentals) }
-            </div>
-        </div> 
+                </div>
+             </div> 
         )   
     }
 }

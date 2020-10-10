@@ -37,9 +37,22 @@ const Header = ({username, isAuth, logout}) => {
                 Manage
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                 <Link 
-                  className="dropdown-item" 
-                  to="/rentals/new">New Rental</Link>
+                  <Link 
+                    className="dropdown-item" 
+                    to="/rentals/new">New Rental
+                  </Link>
+                  <Link 
+                    className="dropdown-item" 
+                    to="/rentals/manage">Manage Rentals
+                  </Link>
+                  <Link 
+                    className="dropdown-item" 
+                    to="/bookings/manage">Manage Bookings
+                  </Link>
+                  <Link 
+                    className="dropdown-item" 
+                    to="/bookings/received">Received Bookings
+                  </Link>
                 </div>
               </li>
               <li className="nav-item">

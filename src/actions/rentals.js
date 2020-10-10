@@ -17,6 +17,19 @@ export const fetchRentals = (location) => dispatch => {
     })
 }
 
+export const fetchUserRentals = () => dispatch => {
+    dispatch({type: 'REQUEST_DATA', resource: 'manage-rentals'});
+    return rentalAxios.get('/rentals/me')
+        .then(res => res.data)
+        .then(rentals => {
+            dispatch({
+                type: 'REQUEST_DATA_COMPLETE',
+                data: rentals,
+                resource: 'manage-rentals'
+            })
+        })
+}
+
 export const fetchRentalById = rentalId => async dispatch => {
     dispatch({type: 'REQUEST_DATA', resource: 'rental'});
     const res = await rentalAxios.get(`/rentals/${rentalId}`)
