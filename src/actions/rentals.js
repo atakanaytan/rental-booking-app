@@ -1,5 +1,6 @@
 
 import axiosService from 'services/AxiosServices';
+import { extractApiErrors } from './index';
 const { rentalAxios } = axiosService;
 
 
@@ -43,3 +44,23 @@ export const fetchRentalById = rentalId => async dispatch => {
 export const createRental = rental => {
     return rentalAxios.post('/rentals', rental);
 }
+
+
+export const deleteRental = rentalId => dispatch => {
+    return rentalAxios.delete(`/rentals/${rentalId}`)
+      .then(res => res.data)
+      .then(({id}) => {
+        dispatch({
+          type: 'DELETE_RESOURCE',
+          id,
+          resource: 'manage-rentals'
+        })
+      })
+      .catch(error => {
+          dispatch({
+              type: 'REQUEST_ERROR',
+              errors: extractApiErrors(error.response || []),
+              resource: 'manage-rentals'
+          })
+      })
+} 

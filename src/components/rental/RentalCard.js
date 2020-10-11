@@ -2,10 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const RentalCard = ({ rental }) => {
+const RentalCard = ({ rental, renderMenu }) => {
 
     return (
-      <Link className="rental-link" to={`/rentals/${rental._id}`}>
+     <> 
+       <Link className="rental-link" to={`/rentals/${rental._id}`}>
         <div className="card bwm-card">
           <img 
             className="card-img-top" 
@@ -18,8 +19,10 @@ const RentalCard = ({ rental }) => {
             <h5 className="card-title big-font">{rental.title}</h5>
             <p className="card-text">${rental.dailyPrice} per Night &#183; Free Cancelation</p>
             </div>
-        </div>
-       </Link>
+         </div>
+        </Link>
+        { renderMenu && renderMenu() }
+      </>
     )
 }
 
