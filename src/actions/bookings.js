@@ -1,6 +1,6 @@
 
 import axiosService from 'services/AxiosServices';
-import { extractApiErrors } from './index';
+import { extractApiErrors, deleteResource } from './index';
 const { rentalAxios } = axiosService;
 
 
@@ -41,3 +41,10 @@ export const fetchReceivedBookings = () => dispatch => {
             })
         })
 }
+
+export const deleteBooking = bookingId => dispatch => {
+    return dispatch(
+        deleteResource(
+            {url: `/bookings/${bookingId}`,
+             resource: 'manage-bookings'}))
+} 
