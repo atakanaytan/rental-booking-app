@@ -11,6 +11,7 @@ import GuestRoute from 'components/auth/GuestRoute';
 import RentalHome from './pages/RentalHome';
 import RentalHomeSearch from 'pages/RentalHomeSearch';
 import RentalDetail from './pages/RentalDetail';
+import RentalEdit from 'pages/RentalEdit';
 import RentalNew from './pages/RentalNew';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -41,6 +42,9 @@ const Routes = () => {
           </Route>
           <AuthRoute path="/rentals/new" >
             <RentalNew />
+          </AuthRoute>
+          <AuthRoute path="/rentals/:id/edit">
+            <RentalEdit />
           </AuthRoute>
           <Route path="/rentals/:id">
             <RentalDetail />

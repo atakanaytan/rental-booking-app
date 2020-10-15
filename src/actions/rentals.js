@@ -4,6 +4,10 @@ import { deleteResource } from './index';
 const { rentalAxios } = axiosService;
 
 
+export const verifyRentalOwner = (rentalId) => {
+    return rentalAxios.get(`/rentals/${rentalId}/verify-user`);
+}
+
 export const fetchRentals = (location) => dispatch => {
     const query = location ? `/rentals?city=${location}` : '/rentals';
     dispatch({type: 'REQUEST_DATA', resource: 'rentals'});
@@ -45,6 +49,16 @@ export const createRental = rental => {
     return rentalAxios.post('/rentals', rental);
 }
 
+export const updateRental = (id, rentalData) => dispatch => {
+    return rentalAxios.patch(`/rentals/${id}`, rentalData)
+        .then(res => res.data)
+        .then(updatedRental => 
+            dispatch({
+                type: 'UPDATE_RENTAL_SUCCESS',
+                rental: updatedRental
+            })
+        )
+} 
 
 export const deleteRental = rentalId => dispatch => {
     return dispatch(
