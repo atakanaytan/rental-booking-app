@@ -1,5 +1,6 @@
 
 import axiosService from 'services/AxiosServices';
+import { extractApiErrors } from './index';
 import { deleteResource } from './index';
 const { rentalAxios } = axiosService;
 
@@ -58,6 +59,7 @@ export const updateRental = (id, rentalData) => dispatch => {
                 rental: updatedRental
             })
         )
+        .catch(error => Promise.reject(extractApiErrors(error.response || [])))
 } 
 
 export const deleteRental = rentalId => dispatch => {
