@@ -8,14 +8,14 @@ import { AuthProvider, useAuth } from 'providers/AuthProvider';
 import { MapProvider } from 'providers/MapProvider';
 import { initStore } from './store';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const store = initStore();
 
 const Providers = ({children}) => 
   <Provider store={store}>
       <AuthProvider>
-        <MapProvider apiKey=<YourKey>
+      <MapProvider apiKey=<YourKey>
             {children}
         </MapProvider>
       </AuthProvider>
