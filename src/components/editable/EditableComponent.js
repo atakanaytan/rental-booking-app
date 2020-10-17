@@ -34,7 +34,60 @@ class EditableComponent extends React.Component {
     handleChange = event => {
         this.setState({value: event.target.value})
     }
-    
+
+    handleKeyDown = event => {
+        if (event.key === 'Enter') {
+            this.update();
+        } else if (event.key === 'Escape') {
+            this.disableInput();
+        }
+    }
+
+    renderComponentView = () => {
+        const { value, isActiveInput} = this.state;
+        const { className, transformView, renderComponent } = this.props; 
+        if (isActiveInput) {
+            return (
+              <>
+               { renderComponent(value, this.handleChange, this.handleKeyDown) }
+               <div className="button-container">
+                <button 
+                    onClick={this.update}  
+                    className="btn btn-success btn-success">Save
+                </button>
+                 <button 
+                    onClick={this.disableInput}  
+                    className="btn btn-danger btn-editable">Cancel
+                </button>
+               </div>
+              </>
+            )
+        } 
+        
+        return (
+            <>
+             <span 
+                className={`editable-item ${className}`}>
+                {transformView ? transformView(value) : `${value}` }
+             </span>
+             <div className="button-container">
+                <button 
+                   onClick={this.activateInput}  
+                   className="btn btn-warning btn-editable">Edit
+                </button>
+             </div>
+            </>
+        )
+     }
+ 
+     render() {
+         const { inline } = this.props;
+         return (
+             <div className={`editable-component ${inline ? 'editable-component-inline' : ''}`}>
+                {this.renderComponentView()}
+             </div>   
+         )
+     }  
 }
 
 export default EditableComponent;

@@ -8,9 +8,11 @@ import RentalAssets from 'components/rental/RentalAssets';
 import { capitalize } from 'helpers/functions';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import EditableInput from 'components/editable/EditableInput';
-import EditableTextarea from 'components/editable/EditableTextarea';
-import EditableSelect from 'components/editable/EditableSelect';
+import { 
+  EditableInput,
+  EditableTextarea,
+  EditableSelect
+} from 'components/editable';
 
 const withUserCheck = Component => props => {
   const [guard, setGuard] = useState({canProceed: false, isChecking: true});

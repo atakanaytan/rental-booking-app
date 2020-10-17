@@ -2,63 +2,27 @@
 import React from 'react';
 import EditableComponent from './EditableComponent';
 
-class EditableSelect extends EditableComponent {
+export class EditableSelect extends React.Component {
 
     renderOptions = (options) => 
         options.map(option =>
             <option key={option} value={option}>{`${option}`}</option>
-        );    
-    
-    renderComponentView = () => {
-       const { value, isActiveInput} = this.state;
-       const { className, transformView, options } = this.props; 
-       if (isActiveInput) {
-           return (
-             <>
+        );
+
+     render() {
+        const { className, options } = this.props;
+        return(
+          <EditableComponent 
+           {...this.props}
+            renderComponent={(value, onChange, onKeyDown) => 
               <select
-                onChange={this.handleChange}
+                onKeyDown={onKeyDown} 
+                onChange={onChange}
                 className={`editable-item ${className}`}
                 value={value}>
                 {this.renderOptions(options)}
               </select>
-              <div className="button-container">
-               <button 
-                   onClick={this.update}  
-                   className="btn btn-success btn-success">Save
-               </button>
-                <button 
-                   onClick={this.disableInput}  
-                   className="btn btn-danger btn-editable">Cancel
-               </button>
-              </div>
-             </>
-           )
-       } 
-       
-       return (
-           <>
-            <span 
-               className={`editable-item ${className}`}>
-               {transformView ? transformView(value) : `${value}`}
-            </span>
-            <div className="button-container">
-               <button 
-                  onClick={this.activateInput}  
-                  className="btn btn-warning btn-editable">Edit
-               </button>
-            </div>
-           </>
-       )
-    }
-
-    render() {
-        const { inline } = this.props;
-        return (
-            <div className={`editable-component ${inline ? 'editable-component-inline' : ''}`}>
-               {this.renderComponentView()}
-            </div>   
+           }/>
         )
     }
 }
-
-export default EditableSelect;
