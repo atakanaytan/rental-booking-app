@@ -3,9 +3,30 @@
 const mongoose = require('mongoose');
 
 const user1_Id = mongoose.Types.ObjectId(); 
-
 const user2_Id = mongoose.Types.ObjectId();
 
+const image1_Id = mongoose.Types.ObjectId(); 
+const image2_Id = mongoose.Types.ObjectId(); 
+const image3_Id = mongoose.Types.ObjectId(); 
+
+exports.images = [
+  {
+    _id: image1_Id,
+    cloudinaryId: 'image-1_lgsjwh',
+    url: 'https://res.cloudinary.com/rentalnow/image/upload/v1603046331/image-1_lgsjwh.jpg'
+  },
+  {
+    _id: image2_Id,
+    cloudinaryId: 'image-2_ximvj4',
+    url: 'https://res.cloudinary.com/rentalnow/image/upload/v1603046331/image-2_ximvj4.jpg'
+  },
+  {
+    _id: image3_Id,
+    cloudinaryId: 'image-3_m1mcmj',
+    url: 'https://res.cloudinary.com/rentalnow/image/upload/v1603046331/image-3_m1mcmj.jpg'
+  }
+
+]
 
 exports.users = [{
   _id: user1_Id,
@@ -25,7 +46,7 @@ exports.rentals = [{
   city: "San Francisco",
   street: "Main street",
   category: "condo",
-  image: "https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg",
+  image: image1_Id,
   numOfRooms: 4,
   shared: true,
   description: "Very nice apartment in center of the city.",
@@ -37,7 +58,7 @@ exports.rentals = [{
   city: "New York",
   street: "Time Square",
   category: "apartment",
-  image: "https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg",
+  image: image2_Id,
   numOfRooms: 1,
   shared: false,
   description: "Very nice apartment in center of the city.",
@@ -49,7 +70,7 @@ exports.rentals = [{
   city: "Bratislava",
   street: "Letna 7",
   category: "house",
-  image: "https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg",
+  image: image3_Id,
   numOfRooms: 5,
   shared: true,
   description: "Very nice apartment in center of the city.",
