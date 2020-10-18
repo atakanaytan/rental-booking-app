@@ -10,6 +10,23 @@ const MapContext = createContext(null);
 export const MapProvider = ({children, apiKey}) => {
     const cache = useRef({});
 
+    const removeMarkers = () => {
+        removeElementsByClass('rentalNow-marker');
+    }
+
+    const removePopUps = () => {
+        removeElementsByClass('rentalNow-popup')
+    }
+
+    const removeElementsByClass = className => {
+        const elements = document.getElementsByClassName(className);
+
+        while (elements.length > 0) {
+            const element = elements[0];
+            element.parentNode.removeChild(element);  
+        }
+    }
+
     const normalizeLocation = (location) => {
         return location.replace(/\s/g,'').toLowerCase();
     }
@@ -41,7 +58,8 @@ export const MapProvider = ({children, apiKey}) => {
     }
     
     const addMarker = (map, position) => {
-        
+        removeMarkers();
+
         const markerDiv = document.createElement('div');
         markerDiv.className = 'rentalNow-marker';
 
@@ -53,6 +71,8 @@ export const MapProvider = ({children, apiKey}) => {
     }
 
     const addPopupMessage = (map, message) => {
+        removePopUps();
+        
         new tt.Popup({className: 'rentalNow-popup', closeButton: false, closeOnClick: false})
             .setLngLat(new tt.LngLat(0,0))
             .setHTML(`<p>${message}</p>`)
