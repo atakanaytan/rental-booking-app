@@ -2,6 +2,13 @@
 import axiosService from 'services/AxiosServices';
 const { rentalAxios } = axiosService;
 
+export const uploadImage = (image) => {
+  const formData = new FormData();
+  formData.append('image', image);
+
+  return rentalAxios.post('/image-upload', formData);
+}
+
 export const extractApiErrors = (resError) => {
     let errors = [{title: 'Error!', detail: 'Ooops, something went wrong!'}];
   
