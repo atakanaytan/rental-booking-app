@@ -2,6 +2,7 @@
 import React from 'react';
 import Spinner from 'components/shared/Spinner';
 import { uploadImage } from 'actions';
+import ImageCrop from './ImageCrop';
 import './FileLoader.scss';
 
 class FileLoader extends React.Component {
@@ -28,7 +29,8 @@ class FileLoader extends React.Component {
     handleImageUpload = () => {
       this.changeImageStatus('PENDING');
       uploadImage(this.selectedImg)
-        .then(() => {          
+        .then(uploadedImage => {        
+          this.props.onFileUpload(uploadImage._id);   
           this.changeImageStatus('UPLOADED');          
         })
         .catch(() => {
@@ -75,11 +77,14 @@ class FileLoader extends React.Component {
               type="file"
             />
           </label>  
+          { imgBase64 &&
+            <ImageCrop src={imgBase64} />
+          }
           { imgBase64 && 
             <>
               <div className="img-preview-container mb-2">
                 <div className="img-preview"> 
-                  <img src={imgBase64}></img>  
+                  <img src={imgBase64} alt=""></img>  
                 </div>
                 { imgStatus === 'PENDING' &&
                   <div className="spinner-container upload-status">

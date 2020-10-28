@@ -6,7 +6,8 @@ export const uploadImage = (image) => {
   const formData = new FormData();
   formData.append('image', image);
 
-  return rentalAxios.post('/image-upload', formData);
+  return rentalAxios.post('/image-upload', formData)
+    .then(res => res.data);
 }
 
 export const extractApiErrors = (resError) => {
