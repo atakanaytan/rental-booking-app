@@ -5,30 +5,30 @@ import { uploadImage } from 'actions';
 import ImageCrop from './ImageCrop';
 import './FileLoader.scss';
 
+class ImageSnippet {
+  constructor(src, name, type) {
+    this.src = src;
+    this.name = name;
+    this.type = type;
+  }
+}
+
 class FileLoader extends React.Component {
 
     constructor() {
         super();
         this.inputRef = React.createRef();
         this.fileReader = new FileReader();
-        this.selectedImg = null;
         this.state = {
-            imgBase64: '',
+            selectedImg: null,
             imgStatus: 'INIT'
         }
     }
 
-    componentDidMount() {
-       this.listenToFileLoading();
-    }
-
-    componentWillUnmount() {
-        this.removeToFileLoadListener(); 
-    }
-
     handleImageUpload = () => {
+      const { selectedImg } = this.state;
       this.changeImageStatus('PENDING');
-      uploadImage(this.selectedImg)
+      uploadImage(selectedImg)
         .then(uploadedImage => {        
           this.props.onFileUpload(uploadImage._id);   
           this.changeImageStatus('UPLOADED');          
@@ -38,33 +38,26 @@ class FileLoader extends React.Component {
         })
     }
 
-    handleImageLoad = (event) => {
-        this.setState({ imgBase64: event.target.result, imgStatus: 'LOADED' })
-    }
-
-    cancelImage = event => {
+    cancelImage = () => {
       this.inputRef.current.value = null;
-      this.selectedImg = null;
-      this.setState({imgBase64: '', imgStatus: 'INIT'});
-    }
-
-    listenToFileLoading = () => {
-        this.fileReader.addEventListener('load', this.handleImageLoad);
-    }
-    
-    removeToFileLoadListener = () => {
-        this.fileReader.removeEventListener('load', this.handleImageLoad);
+      this.setState({selectedImg: null, imgStatus: 'INIT'});
     }
 
     handleChange = event => {
-        this.selectedImg = event.target.files[0];
-        this.fileReader.readAsDataURL(this.selectedImg);
+        const file = event.target.files[0];
+
+        this.fileReader.onloadend = (event) => {
+          const selectedImg = new ImageSnippet(event.target.result, file.name, file.type);
+          this.setState({ selectedImg, imgStatus: 'LOADED' })
+        } 
+
+        this.fileReader.readAsDataURL(file);
     }
 
     changeImageStatus = imgStatus => this.setState({imgStatus});
     
     render() {
-        const { imgBase64, imgStatus } = this.state;
+        const { selectedImg, imgStatus } = this.state;
         return (
           <div className="img-upload-container">
            <label className="img-upload btn btn-bwm-main">
@@ -77,14 +70,14 @@ class FileLoader extends React.Component {
               type="file"
             />
           </label>  
-          { imgBase64 &&
-            <ImageCrop src={imgBase64} />
+          { selectedImg &&
+            <ImageCrop src={selectedImg.src} />
           }
-          { imgBase64 && 
+          { selectedImg && 
             <>
               <div className="img-preview-container mb-2">
                 <div className="img-preview"> 
-                  <img src={imgBase64} alt=""></img>  
+                  <img src={selectedImg.src} alt=""></img>  
                 </div>
                 { imgStatus === 'PENDING' &&
                   <div className="spinner-container upload-status">
