@@ -15,7 +15,7 @@ const store = initStore();
 const Providers = ({children}) => 
   <Provider store={store}>
       <AuthProvider>
-        <MapProvider apiKey="sX8aCK2Hx0xcQ0YGVAjCstSfASAosAkJ">
+        <MapProvider apiKey=<YourKey>
             {children}
         </MapProvider>
       </AuthProvider>
