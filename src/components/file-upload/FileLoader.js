@@ -94,7 +94,7 @@ class FileLoader extends React.Component {
           <>
             <div className="img-preview-container mb-2">
               <div className="img-preview">
-                <img src={croppedImg && croppedImg.url || selectedImg.src} alt=""></img>
+                <img src={(croppedImg && croppedImg.url) || selectedImg.src} alt=""></img>
               </div>
               { imgStatus === 'PENDING' &&
                 <div className="spinner-container upload-status">

@@ -34,8 +34,8 @@ export const getCroppedImg = (image, crop, fileName) => {
     crop.height * scaleY,
     0,
     0,
-    crop.width,
-    crop.height,
+    crop.width * scaleX,
+    crop.height * scaleY,
   );
   
       
@@ -51,4 +51,4 @@ export const getCroppedImg = (image, crop, fileName) => {
     resolve(blob);
    }, 'image/jpeg', 1);
   });
-}
+ }
