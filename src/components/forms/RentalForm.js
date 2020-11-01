@@ -64,7 +64,7 @@ const RentalForm = ({onSubmit}) => {
             <div className="form-group">
               <label htmlFor="image">Image</label>
               <FileLoader 
-                onFileUpload={imageId => setValue('image', imageId)}
+                onFileUpload={image => setValue('image', image._id)}
               />
             </div>
 
