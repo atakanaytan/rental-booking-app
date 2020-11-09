@@ -2,8 +2,10 @@
 const Rental = require('../models/rental');
 const Booking = require('../models/booking');
 
+
 exports.getRentals = async (req, res) => {
   const { city } = req.query;
+  
   const query = city ? {city: city.toLowerCase()} : {};
 
   try {
@@ -28,14 +30,15 @@ exports.getUserRentals = async (req, res) => {
 exports.getRentalById = async (req, res) => {
     const { rentalId } = req.params;
 
-    Rental
-      .findById(rentalId)
-      .populate('image')
-      .exec((error, foundRental) => {
-        if (error) { return res.mongoError(error); } 
-      
-        return res.json(foundRental);
-    })
+    try {
+      const rental = await Rental
+        .findById(rentalId)
+        .populate('owner', '-password -_id')
+        .populate('image');
+      return res.json(rental);
+    } catch(error) {
+      return res.mongoError(error);
+    }
 }
 
 exports.verifyUser = async (req, res) => {
@@ -56,6 +59,7 @@ exports.verifyUser = async (req, res) => {
     return res.mongoError(error);
   }
 }
+
 exports.createRental = (req,res) => {
     const rentalData = req.body;
     rentalData.owner = res.locals.user;
@@ -68,9 +72,9 @@ exports.createRental = (req,res) => {
 }
 
 exports.updateRental = async (req, res) => {
-  const { rentalId } = req.params;
-  const { user } = res.locals;
-  const rentalData = req.body;
+   const { rentalId } = req.params;
+   const { user } = res.locals;
+   const rentalData = req.body;
 
   try {
     const rental = await Rental.findById(rentalId).populate('owner');
@@ -83,7 +87,8 @@ exports.updateRental = async (req, res) => {
 
     rental.set(rentalData);
     await rental.save();
-    return res.status(200).send(rental);
+    const updatedRental = await Rental.findById(rentalId).populate('owner').populate('image');
+    return res.status(200).send(updatedRental);
   } catch (error) {
     return res.mongoError(error)
   }

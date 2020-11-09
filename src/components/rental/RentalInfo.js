@@ -2,6 +2,7 @@
 import React from 'react';
 import RentalAssets from './RentalAssets';
 import { capitalize } from 'helpers/functions';
+import avatar from '../../avatar.png';
 
 const RentalInfo = ({rental}) =>
   <div className="rental">
@@ -10,10 +11,11 @@ const RentalInfo = ({rental}) =>
     </h2>
     { rental.owner &&
       <div className="rental-owner">
-        <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/>
+        <img src={avatar} alt="owner"/>
         <span>{rental.owner.username}</span>
       </div>
     }
+ 
     <h1 className="rental-title">{rental.title}</h1>
     <h2 className="rental-city">{capitalize(rental.city)}</h2>
     <div className="rental-room-info">

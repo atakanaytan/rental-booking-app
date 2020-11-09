@@ -107,12 +107,13 @@ const RentalForm = ({onSubmit}) => {
 
             <div className="form-group">
               <label htmlFor="shared">Shared</label>
+              <div className="row" style={{marginLeft: "auto"}} >
                <input 
                 ref={register}
                 name="shared"
                 type="checkbox"
-                className="form-control"
                 id="shared"/>
+              </div>
             </div>
             <button 
                type="submit"

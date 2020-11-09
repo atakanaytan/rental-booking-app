@@ -33,7 +33,7 @@ const Header = ({username, isAuth, logout}) => {
           { isAuth &&
             <>
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="nav-link dropdown-toggle" href="/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Manage
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">

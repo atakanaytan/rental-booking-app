@@ -24,7 +24,7 @@ class ManageRentals extends React.Component {
 
       renderRentals = (rentals) => 
       rentals.map(rental => 
-        <div key={rental._id} className="col-md-3">
+        <div key={rental._id} className="col-md-3 mb-4">
           <RentalCard 
             rental={rental}
             renderMenu={() => 
